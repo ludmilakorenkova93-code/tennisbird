@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Tennis Bird</string>
+    <string name="menu_title">Tennis Bird</string>
+    <string name="menu_subtitle">Pick a ball and slice through the nets</string>
+    <string name="play">Play</string>
+    <string name="best_score">Best: %1$d</string>
+    <string name="score">Score: %1$d</string>
+    <string name="tap_to_fly">Tap the screen to lift the rally</string>
+    <string name="game_over">Game over</string>
+    <string name="try_again">Try again</string>
+    <string name="menu">Menu</string>
+    <string name="classic_tennis">Classic</string>
+    <string name="clay_spin">Clay spin</string>
+    <string name="neon_smash">Neon smash</string>
+</resources>

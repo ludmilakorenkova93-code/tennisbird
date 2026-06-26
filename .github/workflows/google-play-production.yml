@@ -1,0 +1,60 @@
+name: Build and upload production AAB
+
+on:
+  workflow_dispatch:
+    inputs:
+      versionCode:
+        description: "Android versionCode. Must be higher than the last Play Console upload."
+        required: true
+        default: "2"
+      versionName:
+        description: "Android versionName shown in Play Console."
+        required: true
+        default: "1.0.1"
+
+jobs:
+  upload-production:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Restore signing key
+        run: |
+          test -n "${ANDROID_KEYSTORE_BASE64}" || { echo "ANDROID_KEYSTORE_BASE64 is missing"; exit 1; }
+          echo "${ANDROID_KEYSTORE_BASE64}" | base64 --decode > "${RUNNER_TEMP}/release.jks"
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
+
+      - name: Build signed release bundle
+        run: ./gradlew bundleRelease -PversionCode=${{ inputs.versionCode }} -PversionName=${{ inputs.versionName }}
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/release.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+
+      - name: Check Google Play credentials
+        run: |
+          test -n "${GOOGLE_PLAY_SERVICE_ACCOUNT_JSON}" || { echo "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON is missing"; exit 1; }
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+
+      - name: Upload to Google Play production
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.tennisbird.app
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: production
+          status: draft

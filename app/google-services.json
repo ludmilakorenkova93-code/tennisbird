@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "147546188946",
+    "firebase_url": "https://tennisbird-3c08e-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "tennisbird-3c08e",
+    "storage_bucket": "tennisbird-3c08e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147546188946:android:b98a9e834e09e267034a4b",
+        "android_client_info": {
+          "package_name": "com.tennisbird.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOGrZjzidJ8a7pRkpBNpkB8gDMu2aQiP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

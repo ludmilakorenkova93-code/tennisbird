@@ -1,0 +1,18 @@
+[versions]
+agp = "8.7.3"
+kotlin = "2.0.21"
+junit = "4.13.2"
+androidxCore = "1.13.1"
+firebaseBom = "33.7.0"
+googleServices = "4.4.2"
+
+[libraries]
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-core = { module = "androidx.core:core", version.ref = "androidxCore" }
+firebase-database = { module = "com.google.firebase:firebase-database" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
